@@ -22,7 +22,7 @@ const Layout = ({ children, className }: LayoutProps) => {
             <div className="mb-4 md:mb-0">
               <div className="flex items-center space-x-2">
                 <div className="w-6 h-6 bg-primary rounded-md flex items-center justify-center text-white font-bold text-xs">A</div>
-                <span className="font-bold">AuraGuardian</span>
+                <span className="font-bold">AuthenLens</span>
               </div>
               <p className="text-sm text-muted-foreground mt-2">
                 Advanced AI Content Detection System
@@ -30,7 +30,7 @@ const Layout = ({ children, className }: LayoutProps) => {
             </div>
             
             <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} AuraGuardian. University Project.
+              © {new Date().getFullYear()} AuthenLens. University Project.
             </div>
           </div>
         </div>
