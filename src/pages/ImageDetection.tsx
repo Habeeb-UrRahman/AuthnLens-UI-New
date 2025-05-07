@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import FileUpload from '@/components/FileUpload';
 import DetectionResult from '@/components/DetectionResult';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Loader } from 'lucide-react';
 
 // Define API endpoint (replace with your actual API URL)
@@ -19,11 +20,7 @@ const ImageDetection = () => {
   const [apiStatus, setApiStatus] = useState<'unknown' | 'online' | 'offline'>('unknown');
   const { toast } = useToast();
 
-  // Check API health when component mounts
-  useEffect(() => {
-    checkApiHealth();
-  }, []);
-
+  // Helper function to check API health
   const checkApiHealth = async () => {
     try {
       const response = await fetch(`${API_URL}/health`);
@@ -47,6 +44,11 @@ const ImageDetection = () => {
       });
     }
   };
+
+  // Check API health when component mounts
+  useEffect(() => {
+    checkApiHealth();
+  }, []);
 
   const handleFileSelected = (selectedFile: File) => {
     setFile(selectedFile);
@@ -79,8 +81,8 @@ const ImageDetection = () => {
       const formData = new FormData();
       formData.append('image', file);
       
-      // Send request to Flask API
-      const response = await fetch(`${API_URL}/predict`, {
+      // Send request to Flask API - updated endpoint
+      const response = await fetch(`${API_URL}/api/image/predict`, {
         method: 'POST',
         body: formData,
       });
