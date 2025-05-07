@@ -90,14 +90,15 @@ const AudioDetection = () => {
       const formData = new FormData();
       formData.append('file', file);
       
-      // Send request to Flask API
+      // Send request to Flask API - ensure this matches the endpoint in your Flask app
       const response = await fetch(`${API_URL}/api/audio/analyze`, {
         method: 'POST',
         body: formData,
       });
       
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `API error: ${response.status}`);
       }
       
       const result = await response.json();
