@@ -78,7 +78,7 @@ const VideoDetection = () => {
       const formData = new FormData();
       formData.append('video', file);
       
-      // Send request to Flask API with updated endpoint
+      // Send request to Flask API
       const response = await fetch(`${API_URL}/api/video/detect`, {
         method: 'POST',
         body: formData,

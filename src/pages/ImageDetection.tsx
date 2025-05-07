@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader } from 'lucide-react';
 
-// Define API endpoint (replace with your actual API URL)
+// Define API endpoint
 const API_URL = 'http://localhost:5000';
 
 const ImageDetection = () => {
@@ -81,7 +81,7 @@ const ImageDetection = () => {
       const formData = new FormData();
       formData.append('image', file);
       
-      // Send request to Flask API - updated endpoint
+      // Send request to Flask API
       const response = await fetch(`${API_URL}/api/image/predict`, {
         method: 'POST',
         body: formData,
