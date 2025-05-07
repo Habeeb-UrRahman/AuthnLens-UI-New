@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import FileUpload from '@/components/FileUpload';
 import DetectionResult from '@/components/DetectionResult';
@@ -21,9 +20,9 @@ const ImageDetection = () => {
   const { toast } = useToast();
 
   // Check API health when component mounts
-  useState(() => {
+  useEffect(() => {
     checkApiHealth();
-  });
+  }, []);
 
   const checkApiHealth = async () => {
     try {
