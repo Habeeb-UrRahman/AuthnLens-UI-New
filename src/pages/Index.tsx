@@ -327,20 +327,20 @@ const Index = () => {
           
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">99.8%</div>
-              <div className="text-sm text-muted-foreground">Detection Accuracy</div>
+              <div className="text-5xl font-bold text-blue-600 mb-2"><90%</div>
+              <div className="text-sm text-muted-foreground">Average Detection Accuracy</div>
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold text-blue-600 mb-2">4</div>
               <div className="text-sm text-muted-foreground">Media Types</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">&lt;2s</div>
-              <div className="text-sm text-muted-foreground">Processing Time</div>
+              <div className="text-5xl font-bold text-blue-600 mb-2">1</div>
+              <div className="text-sm text-muted-foreground">Click</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">24/7</div>
-              <div className="text-sm text-muted-foreground">Availability</div>
+              <div className="text-5xl font-bold text-blue-600 mb-2">1</div>
+              <div className="text-sm text-muted-foreground">Platform</div>
             </div>
           </div>
         </div>
