@@ -9,26 +9,19 @@ const Navigation = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  const links = [{
-    name: 'Home',
-    path: '/'
-  }, {
-    name: 'Image Detection',
-    path: '/image'
-  }, {
-    name: 'Video Detection',
-    path: '/video'
-  }, {
-    name: 'Audio Detection',
-    path: '/audio'
-  }, {
-    name: 'Text Detection',
-    path: '/text'
-  }];
+  const links = [
+    { name: 'Home', path: '/' },
+    { name: 'Image Detection', path: '/image' },
+    { name: 'Video Detection', path: '/video' },
+    { name: 'Audio Detection', path: '/audio' },
+    { name: 'Text Detection', path: '/text' },
+    { name: 'Fact Verification', path: '/factcheck' }
+  ];
   
   const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   
-  return <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b">
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -96,7 +89,8 @@ const Navigation = () => {
           ))}
         </nav>
       </div>
-    </header>;
+    </header>
+  );
 };
 
 export default Navigation;
