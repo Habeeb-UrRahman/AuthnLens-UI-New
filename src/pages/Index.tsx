@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Layout from '@/components/Layout';
 import { Image, FileText, Video, AudioLines, CheckCircle, ShieldCheck, Zap, Brain } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
 const Index = () => {
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -72,6 +73,7 @@ const Index = () => {
       }, 300 + index * 150);
     });
   }, []);
+  
   const features = [{
     title: "Image Detection",
     description: "Detect AI-generated images with state-of-the-art neural networks",
@@ -101,6 +103,7 @@ const Index = () => {
     link: "/text",
     benefits: ["StylePattern Recognition", "Cross-LLM Detection", "Context Analysis"]
   }];
+  
   const benefits = [{
     title: "Superior Accuracy",
     description: "Our algorithms achieve over 99% accuracy in detecting AI-generated content",
@@ -118,6 +121,7 @@ const Index = () => {
     description: "Our models continuously improve to detect the latest generation techniques",
     icon: Brain
   }];
+  
   return <Layout>
       {/* Hero Section */}
       <section ref={heroRef} className="relative overflow-hidden min-h-[80vh] flex items-center">
@@ -327,7 +331,7 @@ const Index = () => {
           
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2"><90%</div>
+              <div className="text-5xl font-bold text-blue-600 mb-2">90%+</div>
               <div className="text-sm text-muted-foreground">Average Detection Accuracy</div>
             </div>
             <div className="text-center">
@@ -347,4 +351,5 @@ const Index = () => {
       </section>
     </Layout>;
 };
+
 export default Index;
