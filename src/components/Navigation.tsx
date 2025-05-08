@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
-import { ShieldCheck } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 
 const Navigation = () => {
   const location = useLocation();
@@ -27,7 +26,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-white font-bold transition-transform group-hover:scale-110 duration-300">A</div>
+              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-white font-bold transition-transform group-hover:scale-110 duration-300">
+                <Search size={18} />
+              </div>
               <span className="text-xl font-bold hidden sm:inline-block group-hover:text-primary transition-colors duration-300">AuthenLens</span>
             </Link>
           </div>
