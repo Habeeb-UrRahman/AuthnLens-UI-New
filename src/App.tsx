@@ -9,6 +9,7 @@ import ImageDetection from "./pages/ImageDetection";
 import VideoDetection from "./pages/VideoDetection";
 import AudioDetection from "./pages/AudioDetection";
 import TextDetection from "./pages/TextDetection";
+import FactChecker from "./pages/FactChecker";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/video" element={<VideoDetection />} />
           <Route path="/audio" element={<AudioDetection />} />
           <Route path="/text" element={<TextDetection />} />
+          <Route path="/factcheck" element={<FactChecker />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
@@ -33,3 +35,4 @@ const App = () => (
 );
 
 export default App;
+
