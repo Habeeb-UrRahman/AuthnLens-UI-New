@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -178,8 +179,9 @@ const HeroSection = () => {
   // Troll effect: Create random icons that fly across the screen
   useEffect(() => {
     const createFlyingIcon = () => {
-      const icons = [Banana, Pizza, Cookie, Candy, Laugh, PartyPopper];
-      const RandomIcon = icons[Math.floor(Math.random() * icons.length)];
+      // Define icon components (simplified approach without direct Lucide usage)
+      const iconTypes = ['banana', 'pizza', 'cookie', 'candy', 'laugh', 'party'];
+      const randomIcon = iconTypes[Math.floor(Math.random() * iconTypes.length)];
       
       const flyingIcon = document.createElement('div');
       flyingIcon.style.position = 'fixed';
@@ -217,39 +219,49 @@ const HeroSection = () => {
       
       document.body.appendChild(flyingIcon);
       
-      // Create SVG icon manually
-      const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svgIcon.setAttribute('width', '1em');
-      svgIcon.setAttribute('height', '1em');
-      svgIcon.setAttribute('viewBox', '0 0 24 24');
-      svgIcon.setAttribute('fill', 'none');
-      svgIcon.setAttribute('stroke', 'currentColor');
-      svgIcon.setAttribute('stroke-width', '2');
-      svgIcon.setAttribute('stroke-linecap', 'round');
-      svgIcon.setAttribute('stroke-linejoin', 'round');
-      
-      // Choose a simple path for the icon (circle as fallback)
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', 'M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z');
-      
-      svgIcon.appendChild(path);
-      flyingIcon.appendChild(svgIcon);
+      // Create a simple emoji instead of SVG to avoid potential issues
+      flyingIcon.innerHTML = getRandomEmoji();
       
       // Animate the flying icon across the screen
-      const animation = flyingIcon.animate([
-        { transform: 'translate(0, 0)' },
-        { transform: `translate(${Math.random() > 0.5 ? window.innerWidth + 100 : -window.innerWidth - 100}px, ${Math.random() > 0.5 ? window.innerHeight + 100 : -window.innerHeight - 100}px)` }
-      ], {
-        duration: Math.random() * 3000 + 2000,
-        easing: 'ease-in-out',
-        fill: 'forwards'
-      });
-      
-      animation.onfinish = () => {
-        if (flyingIcon.parentNode) {
-          document.body.removeChild(flyingIcon);
+      try {
+        const animation = flyingIcon.animate([
+          { transform: 'translate(0, 0)' },
+          { transform: `translate(${Math.random() > 0.5 ? window.innerWidth + 100 : -window.innerWidth - 100}px, ${Math.random() > 0.5 ? window.innerHeight + 100 : -window.innerHeight - 100}px)` }
+        ], {
+          duration: Math.random() * 3000 + 2000,
+          easing: 'ease-in-out',
+          fill: 'forwards'
+        });
+        
+        if (animation && typeof animation.onfinish === 'object') {
+          animation.onfinish.then(() => {
+            if (flyingIcon.parentNode) {
+              document.body.removeChild(flyingIcon);
+            }
+          });
+        } else {
+          // Fallback for browsers where animation.onfinish isn't available
+          setTimeout(() => {
+            if (flyingIcon.parentNode) {
+              document.body.removeChild(flyingIcon);
+            }
+          }, 5000);
         }
-      };
+      } catch (error) {
+        console.log("Animation error:", error);
+        // Clean up the element after a delay if animation fails
+        setTimeout(() => {
+          if (flyingIcon.parentNode) {
+            document.body.removeChild(flyingIcon);
+          }
+        }, 5000);
+      }
+    };
+    
+    // Helper function to get random emoji
+    const getRandomEmoji = () => {
+      const emojis = ['🍌', '🍕', '🍪', '🍬', '😂', '🎉'];
+      return emojis[Math.floor(Math.random() * emojis.length)];
     };
     
     const interval = setInterval(createFlyingIcon, 5000);

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/home/HeroSection';
@@ -191,16 +192,16 @@ const Index = () => {
               let start: number | null = null;
               const duration = 1000;
               
-              function bouncyScroll(timestamp: number) {
+              const bouncyScroll = (timestamp: number) => {
                 if (!start) start = timestamp;
                 const elapsed = timestamp - start;
                 const progress = Math.min(elapsed / duration, 1);
                 
                 // Bouncy easing
-                const easing = (progress: number) => {
-                  return progress < 0.5
-                    ? 4 * progress * progress * progress
-                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                const easing = (progressVal: number) => {
+                  return progressVal < 0.5
+                    ? 4 * progressVal * progressVal * progressVal
+                    : 1 - Math.pow(-2 * progressVal + 2, 3) / 2;
                 };
                 
                 // Add some bounce
@@ -212,7 +213,7 @@ const Index = () => {
                 if (progress < 1) {
                   requestAnimationFrame(bouncyScroll);
                 }
-              }
+              };
               
               requestAnimationFrame(bouncyScroll);
             }
