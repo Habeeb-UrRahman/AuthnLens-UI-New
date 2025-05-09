@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/home/HeroSection';
@@ -7,11 +6,11 @@ import BenefitsSection from '@/components/home/BenefitsSection';
 import HowItWorks from '@/components/home/HowItWorks';
 import CTASection from '@/components/home/CTASection';
 import StatsSection from '@/components/home/StatsSection';
-import { Banana, Bomb, Bug, BugOff, Cake, Cookie, EggFried, Laugh, LucideIcon, PartyPopper, Pizza, Poop } from 'lucide-react';
+import { Banana, Bomb, Bug, BugOff, Cake, Cookie, EggFried, Laugh, LucideIcon, PartyPopper, Pizza, Candy } from 'lucide-react';
 
 // Array of fun icons that will randomly appear
 const funIcons: LucideIcon[] = [
-  Banana, Bomb, Bug, BugOff, Cake, Cookie, EggFried, Laugh, PartyPopper, Pizza, Poop
+  Banana, Bomb, Bug, BugOff, Cake, Cookie, EggFried, Laugh, PartyPopper, Pizza, Candy
 ];
 
 // Array of goofy CSS classes

@@ -1,8 +1,7 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Image, FileText, Video, AudioLines, Target, Shield, PartyPopper, Laugh, Cookie, Pizza, Poop, Banana } from 'lucide-react';
+import { Image, FileText, Video, AudioLines, Target, Shield, PartyPopper, Laugh, Cookie, Pizza, Candy, Banana } from 'lucide-react';
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -179,7 +178,7 @@ const HeroSection = () => {
   // Troll effect: Create random icons that fly across the screen
   useEffect(() => {
     const createFlyingIcon = () => {
-      const icons = [Banana, Pizza, Cookie, Poop, Laugh, PartyPopper];
+      const icons = [Banana, Pizza, Cookie, Candy, Laugh, PartyPopper];
       const RandomIcon = icons[Math.floor(Math.random() * icons.length)];
       
       const flyingIcon = document.createElement('div');
@@ -370,7 +369,7 @@ const HeroSection = () => {
       {/* Trolling: Meme corner image that peeks from the corner */}
       <div className="fixed bottom-0 right-0 w-24 h-24 z-50 hover:w-48 hover:h-48 transition-all duration-500 cursor-pointer">
         <div className="absolute bottom-0 right-0 w-20 h-20 bg-white rounded-tl-full overflow-hidden">
-          <Poop className="absolute bottom-0 right-0 w-12 h-12 text-brown-500" />
+          <Candy className="absolute bottom-0 right-0 w-12 h-12 text-pink-500" />
         </div>
       </div>
     </section>
