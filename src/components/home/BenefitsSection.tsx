@@ -38,7 +38,7 @@ const BenefitsSection = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const index = cardsRef.current.findIndex(ref => ref === entry.target);
-          if (index !== -1) {
+          if (index !== -1 && entry.target instanceof HTMLElement) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
           }
