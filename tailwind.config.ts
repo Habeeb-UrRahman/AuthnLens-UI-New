@@ -84,6 +84,14 @@ export default {
           gold: '#F59E0B',
           dark: '#1A1F2C',
           light: '#F8FAFC',
+        },
+        // Trolling funny colors
+        funny: {
+          bubblegum: '#FF77E9',
+          slime: '#A3FF00',
+          crayon: '#FF5757',
+          banana: '#FFDE59',
+          cyan: '#00FFFF',
         }
 			},
 			borderRadius: {
@@ -200,7 +208,7 @@ export default {
             borderRadius: '60% 40% 30% 70% / 70% 30% 60% 40%'
           }
         },
-        // New GTA 6 inspired animations
+        // GTA 6 inspired animations
         'neon-pulse': {
           '0%, 100%': { 
             boxShadow: '0 0 15px 5px rgba(236, 72, 153, 0.7)',
@@ -223,6 +231,76 @@ export default {
           '0%, 100%': { transform: 'translate(0)' },
           '33%': { transform: 'translate(-5px, 3px)' },
           '66%': { transform: 'translate(5px, -3px)' },
+        },
+        // Trolling animations
+        'wiggle': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(-5deg)' },
+          '75%': { transform: 'rotate(5deg)' },
+        },
+        'bounce-crazy': {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '40%': { transform: 'translateY(-20px) scale(0.8)' },
+          '60%': { transform: 'translateY(-10px) scale(1.2)' },
+          '80%': { transform: 'translateY(-5px) scale(1.1)' },
+        },
+        'shake-horizontal': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '20%': { transform: 'translateX(-10px)' },
+          '40%': { transform: 'translateX(10px)' },
+          '60%': { transform: 'translateX(-10px)' },
+          '80%': { transform: 'translateX(10px)' },
+        },
+        'shake-vertical': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '20%': { transform: 'translateY(-10px)' },
+          '40%': { transform: 'translateY(10px)' },
+          '60%': { transform: 'translateY(-10px)' },
+          '80%': { transform: 'translateY(10px)' },
+        },
+        'jello': {
+          '0%, 100%': { transform: 'scale3d(1, 1, 1)' },
+          '30%': { transform: 'scale3d(1.25, 0.75, 1)' },
+          '40%': { transform: 'scale3d(0.75, 1.25, 1)' },
+          '50%': { transform: 'scale3d(1.15, 0.85, 1)' },
+          '65%': { transform: 'scale3d(0.95, 1.05, 1)' },
+          '75%': { transform: 'scale3d(1.05, 0.95, 1)' },
+        },
+        'flip-x': {
+          '0%, 100%': { transform: 'scaleX(1)' },
+          '50%': { transform: 'scaleX(-1)' },
+        },
+        'flip-y': {
+          '0%, 100%': { transform: 'scaleY(1)' },
+          '50%': { transform: 'scaleY(-1)' },
+        },
+        'spin-fast': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'pulse-grow': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+        },
+        'tilt-left-right': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(15deg)' },
+          '75%': { transform: 'rotate(-15deg)' },
+        },
+        'fall': {
+          '0%': { transform: 'translateY(-100vh) rotate(0deg)', opacity: '1' },
+          '100%': { transform: 'translateY(100vh) rotate(720deg)', opacity: '0' },
+        },
+        'move-around': {
+          '0%': { transform: 'translate(0, 0) rotate(0deg)' },
+          '25%': { transform: 'translate(10px, 10px) rotate(5deg)' },
+          '50%': { transform: 'translate(0, 15px) rotate(0deg)' },
+          '75%': { transform: 'translate(-10px, 10px) rotate(-5deg)' },
+          '100%': { transform: 'translate(0, 0) rotate(0deg)' },
+        },
+        'rainbow': {
+          '0%': { filter: 'hue-rotate(0deg)' },
+          '100%': { filter: 'hue-rotate(360deg)' },
         }
 			},
 			animation: {
@@ -241,12 +319,26 @@ export default {
         'aurora': 'aurora 15s ease-in-out infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
         'morph-blob': 'morph-blob 10s ease-in-out infinite',
-        // New GTA 6 inspired animations
+        // GTA 6 inspired animations
         'neon-pulse': 'neon-pulse 2s infinite',
         'cityscape': 'cityscape 20s linear infinite',
         'flicker': 'flicker 0.5s ease-in-out infinite',
         'glitch': 'glitch 0.3s ease-in-out infinite',
-        'gta-float': 'float 4s ease-in-out infinite alternate'
+        'gta-float': 'float 4s ease-in-out infinite alternate',
+        // Trolling animations
+        'wiggle': 'wiggle 0.5s ease-in-out infinite',
+        'bounce-crazy': 'bounce-crazy 1s ease-in-out infinite',
+        'shake-horizontal': 'shake-horizontal 0.3s ease-in-out infinite',
+        'shake-vertical': 'shake-vertical 0.5s ease-in-out infinite',
+        'jello': 'jello 1s ease-in-out infinite',
+        'flip-x': 'flip-x 2s ease-in-out infinite',
+        'flip-y': 'flip-y 2s ease-in-out infinite',
+        'spin-fast': 'spin-fast 0.8s linear infinite',
+        'pulse-grow': 'pulse-grow 1s ease-in-out infinite',
+        'tilt-left-right': 'tilt-left-right 2s ease-in-out infinite',
+        'fall': 'fall 5s linear infinite',
+        'move-around': 'move-around 5s ease-in-out infinite',
+        'rainbow': 'rainbow 3s linear infinite',
 			},
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -257,6 +349,9 @@ export default {
         'gta-gradient': 'linear-gradient(135deg, #1A1F2C 0%, #403E43 100%)',
         'neon-grid': 'repeating-linear-gradient(90deg, rgba(236, 72, 153, 0.15) 0px, rgba(236, 72, 153, 0.15) 1px, transparent 1px, transparent 20px), repeating-linear-gradient(180deg, rgba(236, 72, 153, 0.15) 0px, rgba(236, 72, 153, 0.15) 1px, transparent 1px, transparent 20px)',
         'cityscape': 'url("/cityscape.svg")',
+        // Trolling backgrounds
+        'comic-dots': 'radial-gradient(#000 1px, transparent 2px)',
+        'funky-stripes': 'repeating-linear-gradient(45deg, #FF77E9, #FF77E9 20px, #A3FF00 20px, #A3FF00 40px)',
       },
       boxShadow: {
         'glow': '0 0 20px 10px rgba(129, 140, 248, 0.4)',
@@ -268,6 +363,9 @@ export default {
         'gta-neon': '0 0 10px rgba(249, 115, 22, 0.7), 0 0 20px rgba(236, 72, 153, 0.4)',
         'gta-text': '0 0 5px rgba(249, 115, 22, 0.7)',
         'gta-box': '0 0 15px rgba(139, 92, 246, 0.5), 0 10px 30px -15px rgba(0, 0, 0, 0.5)',
+        // Trolling shadows
+        'silly': '5px 5px 0 rgba(0,0,0,0.8)',
+        'multi-color': '0 0 10px rgba(255,0,0,0.5), 0 0 20px rgba(0,255,0,0.5), 0 0 30px rgba(0,0,255,0.5)',
       }
 		}
 	},
