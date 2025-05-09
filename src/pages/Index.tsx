@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,24 +8,37 @@ import { Image, FileText, Video, AudioLines, CheckCircle, ShieldCheck, Zap, Brai
 import { cn } from '@/lib/utils';
 
 const Index = () => {
+  const [isVisible, setIsVisible] = useState({
+    features: false,
+    benefits: false,
+    howItWorks: false,
+    cta: false,
+    testimonials: false,
+  });
   const heroRef = useRef<HTMLDivElement>(null);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          setIsVisible(prev => ({ ...prev, [sectionId]: true }));
           entry.target.classList.add('animate-fade-in');
           entry.target.classList.remove('opacity-0');
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
 
-    const elements = document.querySelectorAll('.scroll-animation');
-    elements.forEach(el => observer.observe(el));
+    const sections = document.querySelectorAll('.scroll-section');
+    sections.forEach(el => {
+      observer.observe(el);
+      sectionsRef.current.push(el as HTMLElement);
+    });
 
     return () => {
-      elements.forEach(el => observer.unobserve(el));
+      sections.forEach(el => observer.unobserve(el));
     };
   }, []);
 
@@ -70,16 +83,18 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Feature animation with entry delay
+  // Feature cards staggered animation
   useEffect(() => {
+    if (!isVisible.features) return;
+    
     const features = document.querySelectorAll('.feature-card');
     features.forEach((feature, index) => {
       setTimeout(() => {
         feature.classList.add('animate-enter');
         feature.classList.remove('opacity-0');
-      }, 300 + index * 150);
+      }, 150 + index * 150);
     });
-  }, []);
+  }, [isVisible.features]);
 
   const features = [
     {
@@ -122,7 +137,6 @@ const Index = () => {
     //   link: "/factcheck",
     //   benefits: ["ClaimReview Data", "Publisher Sources", "Easy Upload/Text Input"]
     // }
-    
   ];
 
   const benefits = [
@@ -149,10 +163,13 @@ const Index = () => {
   ];
 
   return (
-    <Layout>
+    <Layout className="overflow-x-hidden">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative overflow-hidden min-h-[80vh] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-100/80 to-transparent z-0"></div>
+      <section 
+        ref={heroRef} 
+        className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-b from-blue-50 to-white overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSIyNy45JSIgeTE9IjgxLjklIiB4Mj0iNzguNiUiIHkyPSIxOCUiIGlkPSJhIj48c3RvcCBzdG9wLWNvbG9yPSIjM0I4MkY2IiBzdG9wLW9wYWNpdHk9Ii4wNSIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMzQjgyRjYiIHN0b3Atb3BhY2l0eT0iMCIgb2Zmc2V0PSIxMDAlIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZD0iTTAgMGgxNDQwdjc1MEgweiIgZmlsbD0idXJsKCNhKSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+')]"></div>
         <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
@@ -165,8 +182,8 @@ const Index = () => {
               Protect yourself from synthetic media with our cutting-edge detection system 
               that identifies AI-generated <span className="font-semibold text-primary">images</span>, <span className="font-semibold text-primary">videos</span>, <span className="font-semibold text-primary">audio</span>, and <span className="font-semibold text-primary">text</span> with great accuracy.
             </p>
-            <div className="flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 blue-glow-hover">
+            <div className="flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 animate-pulse-glow">
                 <Link to="/image">Get Started</Link>
               </Button>
               <Button variant="outline" size="lg" className="border-blue-500 text-blue-600 hover:text-blue-700 hover:border-blue-600">
@@ -175,24 +192,24 @@ const Index = () => {
             </div>
 
             {/* Floating Elements */}
-            <div className="mt-16 relative h-64 md:h-80 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-56 md:h-56 bg-white rounded-2xl shadow-lg flex items-center justify-center blue-glow floating-animation">
+            <div className="mt-16 relative h-64 md:h-80 select-none">
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-56 md:h-56 bg-white rounded-2xl shadow-lg flex items-center justify-center blue-glow animate-float">
                 <div className="text-5xl md:text-6xl font-bold text-blue-600">AL</div>
               </div>
               
-              <div className="absolute left-[20%] top-[20%] w-16 h-16 md:w-20 md:h-20 bg-blue-500/10 border border-blue-500/30 backdrop-blur-sm rounded-lg shadow-sm floating-animation" style={{ animationDelay: '1s' }}>
+              <div className="absolute left-[20%] top-[20%] w-16 h-16 md:w-20 md:h-20 bg-blue-500/10 border border-blue-500/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1s' }}>
                 <Image className="w-full h-full p-4 text-blue-500" />
               </div>
               
-              <div className="absolute right-[25%] top-[15%] w-14 h-14 md:w-16 md:h-16 bg-blue-600/10 border border-blue-600/30 backdrop-blur-sm rounded-lg shadow-sm floating-animation" style={{ animationDelay: '1.5s' }}>
+              <div className="absolute right-[25%] top-[15%] w-14 h-14 md:w-16 md:h-16 bg-blue-600/10 border border-blue-600/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1.5s' }}>
                 <Video className="w-full h-full p-3 text-blue-600" />
               </div>
               
-              <div className="absolute left-[25%] bottom-[15%] w-12 h-12 md:w-16 md:h-16 bg-blue-700/10 border border-blue-700/30 backdrop-blur-sm rounded-lg shadow-sm floating-animation" style={{ animationDelay: '0.7s' }}>
+              <div className="absolute left-[25%] bottom-[15%] w-12 h-12 md:w-16 md:h-16 bg-blue-700/10 border border-blue-700/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '0.7s' }}>
                 <AudioLines className="w-full h-full p-3 text-blue-700" />
               </div>
               
-              <div className="absolute right-[20%] bottom-[20%] w-14 h-14 md:w-18 md:h-18 bg-blue-800/10 border border-blue-800/30 backdrop-blur-sm rounded-lg shadow-sm floating-animation" style={{ animationDelay: '1.2s' }}>
+              <div className="absolute right-[20%] bottom-[20%] w-14 h-14 md:w-18 md:h-18 bg-blue-800/10 border border-blue-800/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1.2s' }}>
                 <FileText className="w-full h-full p-3 text-blue-800" />
               </div>
             </div>
@@ -212,7 +229,10 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-20 md:py-28 scroll-animation opacity-0">
+      <section 
+        id="features" 
+        className="scroll-section container mx-auto px-4 py-20 md:py-28 opacity-0 transition-all duration-500"
+      >
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Detection Capabilities</h2>
         <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
           Our cutting-edge AI models can detect artificially generated content across multiple media formats with exceptional accuracy
@@ -220,13 +240,16 @@ const Index = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
-            <Card key={index} className="feature-card opacity-0 interactive-card border overflow-hidden ripple-animation scale-hover">
-              <CardHeader className={cn("border-b bg-gradient-to-br p-6", `${feature.color} bg-clip-text text-transparent`)}>
+            <Card 
+              key={index} 
+              className="feature-card opacity-0 border-2 border-transparent hover:border-blue-200 overflow-hidden transition-all duration-300 group"
+            >
+              <CardHeader className={cn("p-6", `bg-gradient-to-br ${feature.color} bg-clip-text text-transparent`)}>
                 <div className="flex items-center mb-3">
-                  <div className={cn("p-2 rounded-lg mr-3 flex-shrink-0", `bg-gradient-to-br ${feature.color}`)}>
+                  <div className={cn("p-2 rounded-lg mr-3 flex-shrink-0 transition-all duration-500 group-hover:scale-110", `bg-gradient-to-br ${feature.color}`)}>
                     <feature.icon className="h-6 w-6 text-white" />
                   </div>
-                  <CardTitle className="text-2xl">{feature.title}</CardTitle>
+                  <CardTitle className="text-2xl group-hover:translate-x-1 transition-transform duration-300">{feature.title}</CardTitle>
                 </div>
                 <CardDescription className="text-base text-foreground/70">{feature.description}</CardDescription>
               </CardHeader>
@@ -234,21 +257,21 @@ const Index = () => {
                 <div className="mb-4">
                   <ul className="grid grid-cols-1 gap-2">
                     {feature.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-center text-sm">
+                      <li key={i} className="flex items-center text-sm group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
                         <CheckCircle className="h-4 w-4 mr-2 text-blue-500" />
                         <span>{benefit}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end mt-4">
                   <Button 
                     variant="ghost" 
                     asChild 
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 group"
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 group overflow-hidden relative"
                   >
-                    <Link to={feature.link}>
-                      Try Now
+                    <Link to={feature.link} className="flex items-center">
+                      <span className="relative z-10">Try Now</span>
                       <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         width="24" 
@@ -259,11 +282,12 @@ const Index = () => {
                         strokeWidth="2" 
                         strokeLinecap="round" 
                         strokeLinejoin="round" 
-                        className="ml-1 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                        className="ml-1 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10"
                       >
                         <path d="M5 12h14" />
                         <path d="m12 5 7 7-7 7" />
                       </svg>
+                      <span className="absolute inset-0 bg-blue-100 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 rounded-md"></span>
                     </Link>
                   </Button>
                 </div>
@@ -274,7 +298,10 @@ const Index = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white py-20 md:py-28 scroll-animation opacity-0">
+      <section 
+        id="benefits" 
+        className="scroll-section bg-gradient-to-b from-blue-50 to-white py-20 md:py-28 opacity-0 transition-all duration-500"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Why Choose AuthenLens</h2>
           <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
@@ -285,10 +312,10 @@ const Index = () => {
             {benefits.map((benefit, index) => (
               <div 
                 key={index} 
-                className="bg-white p-6 rounded-xl shadow-md border border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-white p-6 rounded-xl shadow-md border border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-500 hover:-translate-y-2 hover:rotate-1"
+                style={{ animationDelay: `${index * 100}ms`, opacity: isVisible.benefits ? 1 : 0, transform: isVisible.benefits ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.5s ease', transitionDelay: `${index * 150}ms` }}
               >
-                <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 transform transition-transform duration-500 hover:scale-110 hover:rotate-12">
                   <benefit.icon className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
@@ -300,16 +327,22 @@ const Index = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 md:py-28 scroll-animation opacity-0">
+      <section 
+        id="howItWorks" 
+        className="scroll-section py-20 md:py-28 opacity-0 transition-all duration-500"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">How It Works</h2>
           <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
             A simple three-step process to detect AI-generated content
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto relative">
+            {/* Connector lines */}
+            <div className="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-blue-200 hidden md:block transform -translate-y-1/2 z-0"></div>
+            
+            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
+              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
                 <span className="text-2xl font-bold">1</span>
               </div>
               <h3 className="text-2xl font-semibold mb-3">Upload Content</h3>
@@ -318,10 +351,8 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-center relative">
-              <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 h-0.5 w-4 bg-blue-300 hidden md:block"></div>
-              <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 h-0.5 w-4 bg-blue-300 hidden md:block"></div>
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
+              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
                 <span className="text-2xl font-bold">2</span>
               </div>
               <h3 className="text-2xl font-semibold mb-3">Advanced Analysis</h3>
@@ -330,8 +361,8 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
+              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
                 <span className="text-2xl font-bold">3</span>
               </div>
               <h3 className="text-2xl font-semibold mb-3">Detailed Results</h3>
@@ -344,17 +375,27 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16 md:py-20 scroll-animation opacity-0">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to identify AI-generated content?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto text-blue-100">
+      <section 
+        id="cta" 
+        className="scroll-section bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16 md:py-24 opacity-0 transition-all duration-500 relative overflow-hidden"
+      >
+        {/* Animated background shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-white/5"></div>
+          <div className="absolute top-20 right-10 w-60 h-60 rounded-full bg-blue-500/10"></div>
+          <div className="absolute bottom-10 left-1/3 w-20 h-20 rounded-full bg-white/5"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 py-8 text-center relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gradient">Ready to identify AI-generated content?</h2>
+          <p className="text-xl mb-10 max-w-2xl mx-auto text-blue-100">
             Start using our advanced detection system today to verify the authenticity of digital content.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" variant="default" className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg">
+            <Button asChild size="lg" variant="default" className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Link to="/image">Try Image Detection</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg">
+            <Button asChild size="lg" variant="outline" className="border-white bg-transparent text-white hover:bg-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Link to="/text">Try Text Detection</Link>
             </Button>
           </div>
@@ -362,26 +403,29 @@ const Index = () => {
       </section>
 
       {/* Testimonials/Social Proof */}
-      <section className="py-16 md:py-20 scroll-animation opacity-0">
+      <section 
+        id="testimonials" 
+        className="scroll-section py-16 md:py-24 opacity-0 transition-all duration-500"
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">Trusted Technology</h2>
-          <p className="text-center text-muted-foreground mb-12">Developed with cutting-edge research and expertise</p>
+          <p className="text-center text-muted-foreground mb-16">Developed with cutting-edge research and expertise</p>
           
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">&gt;90%</div>
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300">
+              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">&gt;90%</div>
               <div className="text-sm text-muted-foreground">Average Detection Accuracy</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">4</div>
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.2s' }}>
+              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">4</div>
               <div className="text-sm text-muted-foreground">Media Types</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">1</div>
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.4s' }}>
+              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">1</div>
               <div className="text-sm text-muted-foreground">Click</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-2">1</div>
+            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.6s' }}>
+              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">1</div>
               <div className="text-sm text-muted-foreground">Platform</div>
             </div>
           </div>
