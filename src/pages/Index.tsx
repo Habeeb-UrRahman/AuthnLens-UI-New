@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/home/HeroSection';
@@ -312,7 +311,8 @@ const Index = () => {
             fontSize: `${Math.floor(Math.random() * 24) + 24}px`
           }}
         >
-          {currentIcon && currentIcon({})}
+          {/* Here we properly render the Lucide icon component */}
+          {currentIcon && React.createElement(currentIcon)}
         </div>
       )}
       

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -233,14 +232,19 @@ const HeroSection = () => {
           fill: 'forwards'
         });
         
-        if (animation && typeof animation.onfinish === 'object') {
+        if (animation && animation.onfinish) {
           animation.onfinish.then(() => {
             if (flyingIcon.parentNode) {
               document.body.removeChild(flyingIcon);
             }
+          }).catch(() => {
+            setTimeout(() => {
+              if (flyingIcon.parentNode) {
+                document.body.removeChild(flyingIcon);
+              }
+            }, 5000);
           });
         } else {
-          // Fallback for browsers where animation.onfinish isn't available
           setTimeout(() => {
             if (flyingIcon.parentNode) {
               document.body.removeChild(flyingIcon);
@@ -249,7 +253,6 @@ const HeroSection = () => {
         }
       } catch (error) {
         console.log("Animation error:", error);
-        // Clean up the element after a delay if animation fails
         setTimeout(() => {
           if (flyingIcon.parentNode) {
             document.body.removeChild(flyingIcon);
