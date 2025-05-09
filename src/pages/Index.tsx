@@ -11,6 +11,65 @@ import StatsSection from '@/components/home/StatsSection';
 const Index = () => {
   // Smooth scroll for anchor links
   useEffect(() => {
+    // Cursor effect for GTA 6 style
+    const createCursorEffect = () => {
+      const cursor = document.createElement('div');
+      cursor.classList.add('custom-cursor');
+      document.body.appendChild(cursor);
+      
+      const handleMouseMove = (e: MouseEvent) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      };
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        if (cursor.parentNode) {
+          document.body.removeChild(cursor);
+        }
+      };
+    };
+    
+    // Add cursor style
+    const style = document.createElement('style');
+    style.textContent = `
+      .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(236, 72, 153, 0.3);
+        border: 1px solid rgba(236, 72, 153, 0.6);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.2s, height 0.2s;
+      }
+      .custom-cursor::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 4px;
+        background: rgba(236, 72, 153, 1);
+        border-radius: 50%;
+      }
+      a:hover ~ .custom-cursor,
+      button:hover ~ .custom-cursor {
+        width: 40px;
+        height: 40px;
+        background: rgba(236, 72, 153, 0.1);
+      }
+    `;
+    document.head.appendChild(style);
+    
+    const cursorCleanup = createCursorEffect();
+    
+    // Smooth scrolling
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchorLink = target.closest('a[href^="#"]');
@@ -31,7 +90,12 @@ const Index = () => {
     };
     
     document.addEventListener('click', handleAnchorClick);
-    return () => document.removeEventListener('click', handleAnchorClick);
+    
+    return () => {
+      document.removeEventListener('click', handleAnchorClick);
+      cursorCleanup();
+      document.head.removeChild(style);
+    };
   }, []);
 
   return (
