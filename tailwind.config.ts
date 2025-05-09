@@ -73,6 +73,17 @@ export default {
           cyan: '#0EA5E9',
           teal: '#2DD4BF',
           emerald: '#10B981',
+        },
+        // GTA 6 inspired color palette
+        gta: {
+          red: '#F97316',
+          pink: '#EC4899',
+          purple: '#8B5CF6',
+          blue: '#3B82F6',
+          neon: '#10B981',
+          gold: '#F59E0B',
+          dark: '#1A1F2C',
+          light: '#F8FAFC',
         }
 			},
 			borderRadius: {
@@ -188,6 +199,30 @@ export default {
           '75%': {
             borderRadius: '60% 40% 30% 70% / 70% 30% 60% 40%'
           }
+        },
+        // New GTA 6 inspired animations
+        'neon-pulse': {
+          '0%, 100%': { 
+            boxShadow: '0 0 15px 5px rgba(236, 72, 153, 0.7)',
+            textShadow: '0 0 15px rgba(236, 72, 153, 0.7)'
+          },
+          '50%': { 
+            boxShadow: '0 0 25px 10px rgba(236, 72, 153, 0.9)',
+            textShadow: '0 0 25px rgba(236, 72, 153, 0.9)'
+          },
+        },
+        'cityscape': {
+          '0%': { backgroundPosition: '0% 0%' },
+          '100%': { backgroundPosition: '100% 0%' },
+        },
+        'flicker': {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.8 },
+        },
+        'glitch': {
+          '0%, 100%': { transform: 'translate(0)' },
+          '33%': { transform: 'translate(-5px, 3px)' },
+          '66%': { transform: 'translate(5px, -3px)' },
         }
 			},
 			animation: {
@@ -205,20 +240,34 @@ export default {
         'enter': 'fade-in 0.5s ease-out, scale-in 0.4s ease-out',
         'aurora': 'aurora 15s ease-in-out infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
-        'morph-blob': 'morph-blob 10s ease-in-out infinite'
+        'morph-blob': 'morph-blob 10s ease-in-out infinite',
+        // New GTA 6 inspired animations
+        'neon-pulse': 'neon-pulse 2s infinite',
+        'cityscape': 'cityscape 20s linear infinite',
+        'flicker': 'flicker 0.5s ease-in-out infinite',
+        'glitch': 'glitch 0.3s ease-in-out infinite',
+        'gta-float': 'float 4s ease-in-out infinite alternate'
 			},
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'hero-pattern': 'url("/hero-pattern.svg")',
         'aurora-gradient': 'linear-gradient(135deg, #9b87f5, #3B82F6, #0EA5E9)',
         'mesh-gradient': 'radial-gradient(at 80% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 70%), radial-gradient(at 0% 50%, rgba(155, 135, 245, 0.2) 0px, transparent 70%), radial-gradient(at 80% 100%, rgba(14, 165, 233, 0.2) 0px, transparent 70%)',
+        // GTA 6 inspired backgrounds
+        'gta-gradient': 'linear-gradient(135deg, #1A1F2C 0%, #403E43 100%)',
+        'neon-grid': 'repeating-linear-gradient(90deg, rgba(236, 72, 153, 0.15) 0px, rgba(236, 72, 153, 0.15) 1px, transparent 1px, transparent 20px), repeating-linear-gradient(180deg, rgba(236, 72, 153, 0.15) 0px, rgba(236, 72, 153, 0.15) 1px, transparent 1px, transparent 20px)',
+        'cityscape': 'url("/cityscape.svg")',
       },
       boxShadow: {
         'glow': '0 0 20px 10px rgba(129, 140, 248, 0.4)',
         'aurora': '0 0 40px rgba(155, 135, 245, 0.5)',
         'neon': '0 0 10px rgba(155, 135, 245, 0.5), 0 0 20px rgba(155, 135, 245, 0.3), 0 0 30px rgba(155, 135, 245, 0.1)',
         'glass': '0 8px 32px rgba(0, 0, 0, 0.05)',
-        '3d': '0 10px 30px -15px rgba(0, 0, 0, 0.3)'
+        '3d': '0 10px 30px -15px rgba(0, 0, 0, 0.3)',
+        // GTA 6 inspired shadows
+        'gta-neon': '0 0 10px rgba(249, 115, 22, 0.7), 0 0 20px rgba(236, 72, 153, 0.4)',
+        'gta-text': '0 0 5px rgba(249, 115, 22, 0.7)',
+        'gta-box': '0 0 15px rgba(139, 92, 246, 0.5), 0 10px 30px -15px rgba(0, 0, 0, 0.5)',
       }
 		}
 	},
