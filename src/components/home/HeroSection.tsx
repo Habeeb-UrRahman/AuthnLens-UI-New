@@ -232,17 +232,13 @@ const HeroSection = () => {
           fill: 'forwards'
         });
         
-        if (animation && animation.onfinish) {
-          animation.onfinish.then(() => {
+        // Handle animation completion properly with type checking
+        if (animation) {
+          // Use addEventListener instead of the promise-based onfinish
+          animation.addEventListener('finish', () => {
             if (flyingIcon.parentNode) {
               document.body.removeChild(flyingIcon);
             }
-          }).catch(() => {
-            setTimeout(() => {
-              if (flyingIcon.parentNode) {
-                document.body.removeChild(flyingIcon);
-              }
-            }, 5000);
           });
         } else {
           setTimeout(() => {
