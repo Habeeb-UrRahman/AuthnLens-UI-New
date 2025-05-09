@@ -1,436 +1,47 @@
 
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect } from 'react';
 import Layout from '@/components/Layout';
-import { Image, FileText, Video, AudioLines, CheckCircle, ShieldCheck, Zap, Brain } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import HeroSection from '@/components/home/HeroSection';
+import FeaturesSection from '@/components/home/FeaturesSection';
+import BenefitsSection from '@/components/home/BenefitsSection';
+import HowItWorks from '@/components/home/HowItWorks';
+import CTASection from '@/components/home/CTASection';
+import StatsSection from '@/components/home/StatsSection';
 
 const Index = () => {
-  const [isVisible, setIsVisible] = useState({
-    features: false,
-    benefits: false,
-    howItWorks: false,
-    cta: false,
-    testimonials: false,
-  });
-  const heroRef = useRef<HTMLDivElement>(null);
-  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
-
-  // Intersection Observer for scroll animations
+  // Smooth scroll for anchor links
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          setIsVisible(prev => ({ ...prev, [sectionId]: true }));
-          entry.target.classList.add('animate-fade-in');
-          entry.target.classList.remove('opacity-0');
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchorLink = target.closest('a[href^="#"]');
+      
+      if (anchorLink) {
+        e.preventDefault();
+        const targetId = anchorLink.getAttribute('href')?.substring(1);
+        if (targetId) {
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80, // Account for fixed header
+              behavior: 'smooth'
+            });
+          }
         }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
-
-    const sections = document.querySelectorAll('.scroll-section');
-    sections.forEach(el => {
-      observer.observe(el);
-      sectionsRef.current.push(el as HTMLElement);
-    });
-
-    return () => {
-      sections.forEach(el => observer.unobserve(el));
-    };
-  }, []);
-
-  // Particle animation effect for hero section
-  useEffect(() => {
-    if (!heroRef.current) return;
-    
-    const hero = heroRef.current;
-    const createParticle = () => {
-      const particle = document.createElement('div');
-      const size = Math.random() * 10 + 2;
-      const xPos = Math.random() * hero.offsetWidth;
-      const duration = Math.random() * 10 + 5;
-      
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.left = `${xPos}px`;
-      particle.style.bottom = '0';
-      particle.style.opacity = '0';
-      particle.style.position = 'absolute';
-      particle.style.borderRadius = '50%';
-      particle.style.backgroundColor = 'rgba(59, 130, 246, 0.5)';
-      particle.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.3)';
-      particle.style.transform = 'translateY(0)';
-      particle.style.transition = `transform ${duration}s ease-out, opacity 2s ease-in-out`;
-      
-      hero.appendChild(particle);
-      
-      setTimeout(() => {
-        particle.style.opacity = '0.7';
-        particle.style.transform = `translateY(-${hero.offsetHeight * 0.7}px)`;
-      }, 100);
-      
-      setTimeout(() => {
-        if (particle.parentNode === hero) {
-          hero.removeChild(particle);
-        }
-      }, duration * 1000);
+      }
     };
     
-    const interval = setInterval(createParticle, 300);
-    return () => clearInterval(interval);
+    document.addEventListener('click', handleAnchorClick);
+    return () => document.removeEventListener('click', handleAnchorClick);
   }, []);
-
-  // Feature cards staggered animation
-  useEffect(() => {
-    if (!isVisible.features) return;
-    
-    const features = document.querySelectorAll('.feature-card');
-    features.forEach((feature, index) => {
-      setTimeout(() => {
-        feature.classList.add('animate-enter');
-        feature.classList.remove('opacity-0');
-      }, 150 + index * 150);
-    });
-  }, [isVisible.features]);
-
-  const features = [
-    {
-      title: "Image Detection",
-      description: "Detect AI-generated images with an advanced ELA + CNN architecture",
-      icon: Image,
-      color: "from-blue-500 to-blue-400",
-      link: "/image",
-      benefits: ["93% Accuracy", "Fast Processing", "Detail Analysis"]
-    },
-    {
-      title: "Video Analysis",
-      description: "Identify synthetic videos and deepfakes with advanced frame analysis",
-      icon: Video,
-      color: "from-blue-600 to-blue-500",
-      link: "/video",
-      benefits: ["92% Accuracy", "Deepfake Detection", "Real-time Results"]
-    },
-    {
-      title: "Audio Recognition",
-      description: "Detect AI generated audio deepfakes, speaker identification using voice patterns", 
-      icon: AudioLines,
-      color: "from-blue-700 to-blue-600",
-      link: "/audio",
-      benefits: ["98% Accuracy", "Voice Pattern Analysis", "Audio Deepfake Detection"]
-    },
-    {
-      title: "Text Verification",
-      description: "Analyze text to detect content generated by language models",
-      icon: FileText,
-      color: "from-blue-800 to-blue-700",
-      link: "/text",
-      benefits: ["83% Accuracy", "Stylometric Analysis", "Context Analysis"]
-    },
-    // {
-    //   title: "Fact Verification",
-    //   description: "Verify online claims with Google Fact Check + media authenticity analysis",
-    //   icon: ShieldCheck,
-    //   color: "from-green-500 to-green-400",
-    //   link: "/factcheck",
-    //   benefits: ["ClaimReview Data", "Publisher Sources", "Easy Upload/Text Input"]
-    // }
-  ];
-
-  const benefits = [
-    {
-      title: "Superior Accuracy",
-      description: "Our algorithms achieve over 99% accuracy in detecting AI-generated content",
-      icon: CheckCircle
-    },
-    {
-      title: "Enhanced Security",
-      description: "Protect your organization from misinformation and synthetic media",
-      icon: ShieldCheck
-    },
-    {
-      title: "Lightning Fast",
-      description: "Get results in seconds, not minutes, with our optimized processing",
-      icon: Zap
-    },
-    {
-      title: "Constantly Learning",
-      description: "Our models continuously improve to detect the latest generation techniques",
-      icon: Brain
-    }
-  ];
 
   return (
     <Layout className="overflow-x-hidden">
-      {/* Hero Section */}
-      <section 
-        ref={heroRef} 
-        className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-b from-blue-50 to-white overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSIyNy45JSIgeTE9IjgxLjklIiB4Mj0iNzguNiUiIHkyPSIxOCUiIGlkPSJhIj48c3RvcCBzdG9wLWNvbG9yPSIjM0I4MkY2IiBzdG9wLW9wYWNpdHk9Ii4wNSIgb2Zmc2V0PSIwJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMzQjgyRjYiIHN0b3Atb3BhY2l0eT0iMCIgb2Zmc2V0PSIxMDAlIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZD0iTTAgMGgxNDQwdjc1MEgweiIgZmlsbD0idXJsKCNhKSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+')]"></div>
-        <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-              <span className="gradient-text">AuthenLens</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-800 font-medium animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Advanced Multimodal AI-Generated Content Detection
-            </p>
-            <p className="text-lg mb-10 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              Protect yourself from synthetic media with our cutting-edge detection system 
-              that identifies AI-generated <span className="font-semibold text-primary">images</span>, <span className="font-semibold text-primary">videos</span>, <span className="font-semibold text-primary">audio</span>, and <span className="font-semibold text-primary">text</span> with great accuracy.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 animate-pulse-glow">
-                <Link to="/image">Get Started</Link>
-              </Button>
-              <Button variant="outline" size="lg" className="border-blue-500 text-blue-600 hover:text-blue-700 hover:border-blue-600">
-                <Link to="#features">Learn More</Link>
-              </Button>
-            </div>
-
-            {/* Floating Elements */}
-            <div className="mt-16 relative h-64 md:h-80 select-none">
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-56 md:h-56 bg-white rounded-2xl shadow-lg flex items-center justify-center blue-glow animate-float">
-                <div className="text-5xl md:text-6xl font-bold text-blue-600">AL</div>
-              </div>
-              
-              <div className="absolute left-[20%] top-[20%] w-16 h-16 md:w-20 md:h-20 bg-blue-500/10 border border-blue-500/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1s' }}>
-                <Image className="w-full h-full p-4 text-blue-500" />
-              </div>
-              
-              <div className="absolute right-[25%] top-[15%] w-14 h-14 md:w-16 md:h-16 bg-blue-600/10 border border-blue-600/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1.5s' }}>
-                <Video className="w-full h-full p-3 text-blue-600" />
-              </div>
-              
-              <div className="absolute left-[25%] bottom-[15%] w-12 h-12 md:w-16 md:h-16 bg-blue-700/10 border border-blue-700/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '0.7s' }}>
-                <AudioLines className="w-full h-full p-3 text-blue-700" />
-              </div>
-              
-              <div className="absolute right-[20%] bottom-[20%] w-14 h-14 md:w-18 md:h-18 bg-blue-800/10 border border-blue-800/30 backdrop-blur-sm rounded-lg shadow-sm animate-float" style={{ animationDelay: '1.2s' }}>
-                <FileText className="w-full h-full p-3 text-blue-800" />
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
-            <path 
-              fill="#ffffff" 
-              fillOpacity="1" 
-              d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,53.3C672,53,768,75,864,80C960,85,1056,75,1152,69.3C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            ></path>
-          </svg>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section 
-        id="features" 
-        className="scroll-section container mx-auto px-4 py-20 md:py-28 opacity-0 transition-all duration-500"
-      >
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Detection Capabilities</h2>
-        <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
-          Our cutting-edge AI models can detect artificially generated content across multiple media formats with exceptional accuracy
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {features.map((feature, index) => (
-            <Card 
-              key={index} 
-              className="feature-card opacity-0 border-2 border-transparent hover:border-blue-200 overflow-hidden transition-all duration-300 group"
-            >
-              <CardHeader className={cn("p-6", `bg-gradient-to-br ${feature.color} bg-clip-text text-transparent`)}>
-                <div className="flex items-center mb-3">
-                  <div className={cn("p-2 rounded-lg mr-3 flex-shrink-0 transition-all duration-500 group-hover:scale-110", `bg-gradient-to-br ${feature.color}`)}>
-                    <feature.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl group-hover:translate-x-1 transition-transform duration-300">{feature.title}</CardTitle>
-                </div>
-                <CardDescription className="text-base text-foreground/70">{feature.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-6 pb-4">
-                <div className="mb-4">
-                  <ul className="grid grid-cols-1 gap-2">
-                    {feature.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-center text-sm group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
-                        <CheckCircle className="h-4 w-4 mr-2 text-blue-500" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex justify-end mt-4">
-                  <Button 
-                    variant="ghost" 
-                    asChild 
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 group overflow-hidden relative"
-                  >
-                    <Link to={feature.link} className="flex items-center">
-                      <span className="relative z-10">Try Now</span>
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        width="24" 
-                        height="24" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        className="ml-1 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 relative z-10"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                      <span className="absolute inset-0 bg-blue-100 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 rounded-md"></span>
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section 
-        id="benefits" 
-        className="scroll-section bg-gradient-to-b from-blue-50 to-white py-20 md:py-28 opacity-0 transition-all duration-500"
-      >
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Why Choose AuthenLens</h2>
-          <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
-            Our platform offers unparalleled accuracy and security in detecting AI-generated content
-          </p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index} 
-                className="bg-white p-6 rounded-xl shadow-md border border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-500 hover:-translate-y-2 hover:rotate-1"
-                style={{ animationDelay: `${index * 100}ms`, opacity: isVisible.benefits ? 1 : 0, transform: isVisible.benefits ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.5s ease', transitionDelay: `${index * 150}ms` }}
-              >
-                <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 transform transition-transform duration-500 hover:scale-110 hover:rotate-12">
-                  <benefit.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground">{benefit.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section 
-        id="howItWorks" 
-        className="scroll-section py-20 md:py-28 opacity-0 transition-all duration-500"
-      >
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">How It Works</h2>
-          <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
-            A simple three-step process to detect AI-generated content
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto relative">
-            {/* Connector lines */}
-            <div className="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-blue-200 hidden md:block transform -translate-y-1/2 z-0"></div>
-            
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
-                <span className="text-2xl font-bold">1</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Upload Content</h3>
-              <p className="text-muted-foreground">
-                Upload your media file or paste your text that you want to analyze for authenticity
-              </p>
-            </div>
-            
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
-                <span className="text-2xl font-bold">2</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Advanced Analysis</h3>
-              <p className="text-muted-foreground">
-                Our specialized neural networks analyze the content for AI signatures and anomalies
-              </p>
-            </div>
-            
-            <div className="bg-white border border-blue-100 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 text-center relative z-10 hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110">
-                <span className="text-2xl font-bold">3</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-3">Detailed Results</h3>
-              <p className="text-muted-foreground">
-                Receive a comprehensive report indicating whether the content is AI-generated or authentic
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section 
-        id="cta" 
-        className="scroll-section bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16 md:py-24 opacity-0 transition-all duration-500 relative overflow-hidden"
-      >
-        {/* Animated background shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-white/5"></div>
-          <div className="absolute top-20 right-10 w-60 h-60 rounded-full bg-blue-500/10"></div>
-          <div className="absolute bottom-10 left-1/3 w-20 h-20 rounded-full bg-white/5"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 py-8 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gradient">Ready to identify AI-generated content?</h2>
-          <p className="text-xl mb-10 max-w-2xl mx-auto text-blue-100">
-            Start using our advanced detection system today to verify the authenticity of digital content.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" variant="default" className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <Link to="/image">Try Image Detection</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-white bg-transparent text-white hover:bg-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <Link to="/text">Try Text Detection</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials/Social Proof */}
-      <section 
-        id="testimonials" 
-        className="scroll-section py-16 md:py-24 opacity-0 transition-all duration-500"
-      >
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">Trusted Technology</h2>
-          <p className="text-center text-muted-foreground mb-16">Developed with cutting-edge research and expertise</p>
-          
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300">
-              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">&gt;90%</div>
-              <div className="text-sm text-muted-foreground">Average Detection Accuracy</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.2s' }}>
-              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">4</div>
-              <div className="text-sm text-muted-foreground">Media Types</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.4s' }}>
-              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">1</div>
-              <div className="text-sm text-muted-foreground">Click</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300" style={{ animationDelay: '0.6s' }}>
-              <div className="text-5xl font-bold text-blue-600 mb-2 animate-float">1</div>
-              <div className="text-sm text-muted-foreground">Platform</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
+      <FeaturesSection />
+      <BenefitsSection />
+      <HowItWorks />
+      <CTASection />
+      <StatsSection />
     </Layout>
   );
 };
