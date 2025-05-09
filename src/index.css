@@ -169,45 +169,6 @@
   .aurora-blob {
     @apply bg-aurora-gradient rounded-full blur-xl opacity-60 animate-morph-blob absolute;
   }
-  
-  /* GTA 6 Inspired Styles */
-  .gta-text {
-    @apply bg-gradient-to-r from-gta-red to-gta-pink bg-clip-text text-transparent animate-gradient-flow;
-  }
-  
-  .gta-neon-border {
-    @apply relative;
-  }
-  
-  .gta-neon-border::before {
-    @apply content-[''] absolute inset-0 border-2 border-gta-pink shadow-gta-neon rounded-md -z-10 animate-neon-pulse;
-  }
-  
-  .gta-card {
-    @apply bg-gta-dark/80 backdrop-blur-md border border-gta-pink/30 shadow-gta-box rounded-md overflow-hidden relative;
-  }
-  
-  .gta-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    animation: gta-shimmer 3s infinite;
-  }
-  
-  .gta-grid-bg {
-    @apply bg-neon-grid bg-fixed;
-  }
-
-  .gta-cityscape {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSIyNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjUwaDE0NDBWMEgwdjI1MHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMCAyMDBoNzB2LTkwaDMwdjYwaDQwdi0zMGgzMHYtMzBoNDB2NjBoMzB2LTkwaDQwdjMwaDMwdi02MGg0MHYxMjBoMzB2LTYwaDQwdjMwaDMwdi05MGg0MHY2MGgzMHYtMzBoNDB2LTMwaDMwdjYwaDQwdjMwaDMwdi02MGg0MHYxMjBoMzB2LTMwaDQwdjYwaDMwdi05MGg0MHYzMGgzMHYtNjBoNDB2MTIwaDMwdi05MGg0MHY2MGgzMHYtMzBoNDB2LTMwaDF2MTUwSDB6IiBmaWxsPSIjMWExZjJjIi8+PC9zdmc+');
-    background-repeat: repeat-x;
-    background-position: bottom;
-    animation: cityscape 60s linear infinite;
-  }
 }
 
 @keyframes floating {
@@ -229,15 +190,4 @@
 @keyframes pulse-border {
   0%, 100% { border-color: rgba(155, 135, 245, 0.5); }
   50% { border-color: rgba(155, 135, 245, 1); }
-}
-
-/* GTA 6 Inspired Animations */
-@keyframes gta-shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-@keyframes cityscape {
-  0% { background-position: 0 bottom; }
-  100% { background-position: -1440px bottom; }
 }

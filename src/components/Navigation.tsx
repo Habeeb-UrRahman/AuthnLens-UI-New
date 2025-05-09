@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Menu, Search, X, Target } from 'lucide-react';
+import { Menu, Search, X } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -46,19 +46,16 @@ const Navigation = () => {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      scrolled ? "bg-black/50 backdrop-blur-lg border-b border-gta-pink/20 shadow-md" : "bg-transparent"
+      scrolled ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md" : "bg-transparent"
     )}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-gta-pink to-gta-red rounded-md flex items-center justify-center text-white shadow-gta-neon transition-all duration-300 group-hover:scale-110">
-                <Target className="h-5 w-5" />
+              <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-white shadow-neon transition-all duration-300 group-hover:scale-110">
+                <Search className="h-5 w-5" />
               </div>
-              <div className="flex items-center">
-                <span className="text-xl font-bold hidden sm:inline-block gta-text">AuthenLens</span>
-                <span className="text-xs align-super text-gta-gold font-mono ml-1">VI</span>
-              </div>
+              <span className="text-xl font-bold hidden sm:inline-block gradient-text">AuthenLens</span>
             </Link>
           </div>
           
@@ -71,15 +68,15 @@ const Navigation = () => {
                     <Link 
                       to={link.path} 
                       className={cn(
-                        "relative px-3 py-2 rounded-md font-medium uppercase tracking-wider transition-colors flex items-center text-sm", 
+                        "relative px-3 py-2 rounded-md font-medium transition-colors flex items-center", 
                         location.pathname === link.path 
-                          ? "text-gta-pink" 
-                          : "text-gta-light/70 hover:text-gta-light"
+                          ? "text-primary bg-primary/10" 
+                          : "text-foreground/70 hover:text-foreground hover:bg-accent/50"
                       )}
                     >
                       {link.name}
                       {location.pathname === link.path && (
-                        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gta-pink to-gta-red" />
+                        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary rounded-full" />
                       )}
                     </Link>
                   </NavigationMenuItem>
@@ -95,7 +92,7 @@ const Navigation = () => {
               size="icon" 
               onClick={toggleMenu} 
               aria-label="Toggle menu"
-              className="text-gta-pink hover:text-gta-pink/90 hover:bg-gta-pink/10"
+              className="aurora-glow-hover rounded-full"
             >
               {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
@@ -105,7 +102,7 @@ const Navigation = () => {
       
       {/* Mobile menu */}
       <div className={cn(
-        "md:hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-lg",
+        "md:hidden fixed inset-0 z-50 glassmorphism",
         mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       )}
       style={{ transition: 'opacity 0.3s ease' }}
@@ -116,7 +113,7 @@ const Navigation = () => {
             size="icon" 
             onClick={toggleMenu} 
             aria-label="Close menu"
-            className="text-gta-pink hover:text-gta-pink/90 hover:bg-gta-pink/10"
+            className="aurora-glow-hover rounded-full"
           >
             <X />
           </Button>
@@ -128,10 +125,10 @@ const Navigation = () => {
               key={link.path} 
               to={link.path} 
               className={cn(
-                "px-6 py-3 text-xl rounded-md transition-all duration-500 w-full max-w-xs text-center uppercase tracking-widest", 
+                "px-6 py-3 text-xl rounded-md transition-all duration-500 w-full max-w-xs text-center", 
                 location.pathname === link.path 
-                  ? "bg-gradient-to-r from-gta-pink to-gta-red text-white font-medium shadow-gta-neon" 
-                  : "bg-black/50 backdrop-blur-sm hover:bg-gta-pink/20 text-gta-light/80 hover:text-white"
+                  ? "bg-primary text-white font-medium shadow-neon" 
+                  : "bg-white/10 backdrop-blur-sm hover:bg-primary/20"
               )}
               style={{ animationDelay: `${index * 100}ms` }} 
               onClick={() => setMobileMenuOpen(false)}
@@ -140,8 +137,8 @@ const Navigation = () => {
             </Link>
           ))}
           
-          <div className="absolute bottom-10 w-full text-center text-sm text-gta-light/60">
-            <span className="gta-text font-bold">AuthenLens</span> © {new Date().getFullYear()}
+          <div className="absolute bottom-10 w-full text-center text-sm text-muted-foreground">
+            <span className="gradient-text font-bold">AuthenLens</span> © {new Date().getFullYear()}
           </div>
         </nav>
       </div>
