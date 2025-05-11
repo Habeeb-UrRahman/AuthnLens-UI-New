@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import FileUpload from '@/components/FileUpload';
@@ -29,7 +28,7 @@ const ImageDetection = () => {
       } else {
         setApiStatus('offline');
         toast({
-          title: "API Connection Issue",
+          title: "Flask API Connection Issue",
           description: "Unable to connect to the detection server",
           variant: "destructive",
         });
@@ -38,7 +37,7 @@ const ImageDetection = () => {
       console.error("API health check failed:", error);
       setApiStatus('offline');
       toast({
-        title: "API Connection Issue",
+        title: "Flask API Connection Issue",
         description: "Unable to connect to the detection server",
         variant: "destructive",
       });
