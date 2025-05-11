@@ -30,24 +30,19 @@ const HowItWorks = () => {
     <section 
       id="howItWorks" 
       ref={sectionRef}
-      className="py-20 md:py-28 bg-gta-dark relative"
+      className="py-20 md:py-28"
     >
-      {/* Background grid */}
-      <div className="absolute inset-0 gta-grid-bg opacity-10"></div>
-      
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 gta-text">How It Works</h2>
-          <p className="text-lg text-gta-light/70 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 gradient-text">How It Works</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             A simple three-step process to detect AI-generated content
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto relative">
           {/* Connector lines */}
-          <div className="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-gta-pink/20 hidden md:block transform -translate-y-1/2 z-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-gta-pink to-gta-purple opacity-50"></div>
-          </div>
+          <div className="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-aurora-purple/20 hidden md:block transform -translate-y-1/2 z-0"></div>
           
           {[
             {
@@ -69,21 +64,18 @@ const HowItWorks = () => {
             <div 
               key={index}
               ref={el => stepsRef.current[index] = el}
-              className="opacity-0 gta-card p-8 border-2 border-gta-pink/20 shadow-gta-box hover:shadow-gta-neon hover:-translate-y-2 transition-all duration-500 text-center relative z-10"
+              className="opacity-0 glassmorphism p-8 border-2 border-white/10 shadow-glass hover:shadow-3d hover:-translate-y-2 transition-all duration-500 text-center relative z-10"
               style={{ transitionDelay: `${index * 200}ms` }}
             >
-              <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-gta-pink to-gta-purple text-white flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110 shadow-gta-neon">
+              <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-aurora-purple to-aurora-blue text-white flex items-center justify-center mx-auto mb-6 transform transition-transform duration-500 hover:scale-110 shadow-neon">
                 <span className="text-2xl font-bold">{step.number}</span>
                 {/* Pulsing effect */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gta-pink to-gta-purple opacity-50 animate-pulse-glow"></div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-aurora-purple to-aurora-blue opacity-50 animate-pulse-glow"></div>
               </div>
-              <h3 className="text-2xl font-semibold mb-3 text-white">{step.title}</h3>
-              <p className="text-gta-light/70">
+              <h3 className="text-2xl font-semibold mb-3">{step.title}</h3>
+              <p className="text-muted-foreground">
                 {step.description}
               </p>
-              
-              {/* Add an interactive glitch effect on hover */}
-              <div className="absolute -inset-px bg-gta-pink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           ))}
         </div>
