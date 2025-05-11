@@ -7,7 +7,6 @@ import BenefitsSection from '@/components/home/BenefitsSection';
 import HowItWorks from '@/components/home/HowItWorks';
 import CTASection from '@/components/home/CTASection';
 import StatsSection from '@/components/home/StatsSection';
-import TestimonialsSection from '@/components/home/TestimonialsSection';
 
 const Index = () => {
   // Smooth scroll for anchor links
@@ -62,7 +61,6 @@ const Index = () => {
       <FeaturesSection />
       <BenefitsSection />
       <HowItWorks />
-      <TestimonialsSection />
       <StatsSection />
       <CTASection />
     </Layout>

@@ -170,7 +170,6 @@ const Navigation = () => {
                   : "bg-white/10 backdrop-blur-sm hover:bg-primary/20"
               )}
               style={{ 
-                animationDelay: `${index * 100}ms`,
                 transform: 'translateY(20px)',
                 opacity: 0,
                 animation: 'fade-up 0.5s forwards',
