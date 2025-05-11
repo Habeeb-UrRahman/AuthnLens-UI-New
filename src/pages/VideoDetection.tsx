@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import FileUpload from '@/components/FileUpload';
@@ -29,7 +28,7 @@ const VideoDetection = () => {
       } else {
         setApiStatus('offline');
         toast({
-          title: "API Connection Issue",
+          title: "Flask API Connection Issue",
           description: "Unable to connect to the detection server",
           variant: "destructive",
         });
@@ -38,7 +37,7 @@ const VideoDetection = () => {
       console.error("API health check failed:", error);
       setApiStatus('offline');
       toast({
-        title: "API Connection Issue",
+        title: "Flask API Connection Issue",
         description: "Unable to connect to the detection server",
         variant: "destructive",
       });
@@ -155,7 +154,7 @@ const VideoDetection = () => {
                 <CardContent className="p-6">
                   <FileUpload
                     accept="video/mp4,video/webm,video/quicktime"
-                    maxSize={20}
+                    maxSize={200}
                     onFileSelected={handleFileSelected}
                   />
                   
